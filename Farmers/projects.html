@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Digital Farmers</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="IndexStyle.css">
+    <link rel="stylesheet" href="projectstyles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="project.js"></script>
+  </head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <a href="#" class="logo"><i class="fas fa-tree"> Digital Farmers</i></a>
+
+        <!--navbar icons-->
+        <div class="fas fa-bars"></div>
+
+        <nav class="navbar">
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="#dashboard">Dashboard</a></li>
+                <li><a href="#features">Features</a></li>
+                <li><a href="#calculations">Calculations</a></li>
+                <li><a href="Ai.html">Farming Intelligence</a></li>
+                <li id="user-profile-container" style="display: none;">
+                    <div class="user-profile-icon" id="user-profile-icon">
+                        <span id="user-initials"></span>
+                    </div>
+                </li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <h1>From Soil to Security</h1>
+            <p>Track, plan, connect, and learn with Digital Farmers.</p>
+            <button class="btn btn-primary btn-large">Start Your Journey
+                
+            </button>
+        </div>
+    </section>
+
+    <!-- Dashboard Section -->
+    <section class="dashboard" id="dashboard">
+        <div class="container">
+            <div class="dashboard-header">
+                <h2 class="dashboard-title">My Garden Dashboard</h2>
+                <button class="btn btn-primary" id="add-plant-btn">Add New Plant</button>
+            </div>
+            
+            <div class="dashboard-grid">
+                <!-- Weather Card -->
+                <div class="dashboard-card">
+                    <div class="card-header">
+                        <h3 class="card-title">Weather & Watering</h3>
+                        <i class="fas fa-cloud-sun card-icon"></i>
+                    </div>
+                    <div class="weather-card">
+                        <div class="weather-icon">
+                            <i class="fas fa-sun"></i>
+                        </div>
+                        <div class="weather-info">
+                            <h3>Sunny, 24°C</h3>
+                            <p>Watering suggestion: Moderate watering needed today</p>
+                            <div class="weather-details">
+                                <div class="weather-detail">
+                                    <i class="fas fa-wind"></i>
+                                    <span>12 km/h</span>
+                                </div>
+                                <div class="weather-detail">
+                                    <i class="fas fa-tint"></i>
+                                    <span>45%</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Plant Health Card -->
+                <div class="dashboard-card">
+                    <div class="card-header">
+                        <h3 class="card-title">Plant Health Status</h3>
+                        <i class="fas fa-heartbeat card-icon"></i>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="healthChart"></canvas>
+                    </div>
+                </div>
+                
+                <!-- Soil Conditions Card -->
+                <div class="dashboard-card">
+                    <div class="card-header">
+                        <h3 class="card-title">Soil Conditions</h3>
+                        <i class="fas fa-seedling card-icon"></i>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="soilChart"></canvas>
+                    </div>
+                </div>
+                
+                <!-- Plant List Card -->
+                <div class="dashboard-card">
+                    <div class="card-header">
+                        <h3 class="card-title">My Plants</h3>
+                        <i class="fas fa-leaf card-icon"></i>
+                    </div>
+                    <ul class="plant-list">
+                        <li class="plant-item">
+                            <i class="fas fa-carrot plant-icon"></i>
+                            <div class="plant-info">
+                                <div class="plant-name">Carrots</div>
+                                <div class="plant-status">Ready for harvest in 2 weeks</div>
+                            </div>
+                            <div class="status-indicator status-good"></div>
+                        </li>
+                        <li class="plant-item">
+                            <i class="fas fa-apple-alt plant-icon"></i>
+                            <div class="plant-info">
+                                <div class="plant-name">Tomatoes</div>
+                                <div class="plant-status">Needs watering today</div>
+                            </div>
+                            <div class="status-indicator status-warning"></div>
+                        </li>
+                        <li class="plant-item">
+                            <i class="fas fa-pepper-hot plant-icon"></i>
+                            <div class="plant-info">
+                                <div class="plant-name">Bell Peppers</div>
+                                <div class="plant-status">Growing well</div>
+                            </div>
+                            <div class="status-indicator status-good"></div>
+                        </li>
+                    </ul>
+                </div>
+                
+                <!-- Tasks Card -->
+                <div class="dashboard-card">
+                    <div class="card-header">
+                        <h3 class="card-title">Upcoming Tasks</h3>
+                        <i class="fas fa-tasks card-icon"></i>
+                    </div>
+                    <ul class="task-list">
+                        <li class="task-item">
+                            <input type="checkbox" class="task-checkbox">
+                            <div class="task-info">
+                                <div class="task-name">Water tomato plants</div>
+                                <div class="task-date">Today, 6:00 PM</div>
+                            </div>
+                            <span class="task-priority priority-high">High</span>
+                        </li>
+                        <li class="task-item">
+                            <input type="checkbox" class="task-checkbox">
+                            <div class="task-info">
+                                <div class="task-name">Apply fertilizer to carrots</div>
+                                <div class="task-date">Tomorrow, 9:00 AM</div>
+                            </div>
+                            <span class="task-priority priority-medium">Medium</span>
+                        </li>
+                        <li class="task-item">
+                            <input type="checkbox" class="task-checkbox">
+                            <div class="task-info">
+                                <div class="task-name">Check for pests</div>
+                                <div class="task-date">Friday, 10:00 AM</div>
+                            </div>
+                            <span class="task-priority priority-low">Low</span>
+                        </li>
+                    </ul>
+                </div>
+                
+                <!-- Growth Progress Card -->
+                <div class="dashboard-card">
+                    <div class="card-header">
+                        <h3 class="card-title">Growth Progress</h3>
+                        <i class="fas fa-chart-line card-icon"></i>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="growthChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features" id="features">
+        <div class="container">
+            <div class="section-title">
+                <h2>Everything You Need for Successful Gardening</h2>
+                <p>From planning to harvest, our tools help you grow healthier plants with less effort.</p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3>Smart Garden Tracker</h3>
+                    <p>Monitor plant growth, watering schedules, and soil conditions with intuitive dashboards and visual charts.</p>
+                    <a href="https://www.cropmonitor.org/"><button class="btn btn-primary">Explore</button></a>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <h3>Community Urban Farming Hub</h3>
+                    <p>Connect with local gardeners, share knowledge, seeds, and produce through our interactive platform.</p>
+                    <a href="https://agriculture.ny.gov/community-gardens-and-urban-agriculture"><button class="btn btn-primary">Community+</button></a>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-book"></i>
+                    </div>
+                    <h3>Educational Garden Journal</h3>
+                    <p>Learn sustainable gardening practices through interactive lessons and track your progress.</p>
+                    <a href="https://www.anoffgridlife.com/7-free-garden-planners-for-beginner-gardeners/"><button class="btn btn-primary">Start Learning</button></a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Calculations Section -->
+    <section class="calculations" id="calculations">
+        <div class="calc-container">
+            <div class="calc-header">
+                <h1>Calculator</h1>
+                <p>From Soil to Security</p>
+            </div>
+            
+            <div class="calc-content">
+                <div class="farming-type">
+                    <div class="farming-option active" data-type="crop">
+                        <h3>Crop Farming</h3>
+                        <p>Calculate costs and yields for crop farming</p>
+                    </div>
+                    <div class="farming-option" data-type="fish">
+                        <h3>Fish Farming</h3>
+                        <p>Calculate costs and yields for fish farming</p>
+                    </div>
+                </div>
+                
+                <div class="form-section active" id="crop-farming">
+                    <h2>Crop Farming Calculator</h2>
+                    <p class="form-description">Enter the details of your farming project to calculate costs and yields.</p>
+                    
+                    <div class="form-group">
+                        <label for="length">Length of the yard (meters):</label>
+                        <input type="number" id="length" step="0.1" min="0.1" placeholder="Enter length">
+                        <div class="error" id="length-error">Please enter a positive number for length</div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="width">Width of the yard (meters):</label>
+                        <input type="number" id="width" step="0.1" min="0.1" placeholder="Enter width">
+                        <div class="error" id="width-error">Please enter a positive number for width</div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="population">Estimated population for this project:</label>
+                        <input type="number" id="population" min="1" placeholder="Enter population">
+                        <div class="error" id="population-error">Please enter a positive number for population</div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="seeds-cost">Cost of 1kg bag of seeds (R):</label>
+                        <input type="number" id="seeds-cost" step="0.01" min="0.01" placeholder="Enter seeds cost">
+                        <div class="error" id="seeds-error">Please enter a positive cost for seeds</div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="fertilizer-cost">Cost of 1kg bag of fertilizers (R):</label>
+                        <input type="number" id="fertilizer-cost" step="0.01" min="0.01" placeholder="Enter fertilizer cost">
+                        <div class="error" id="fertilizer-error">Please enter a positive cost for fertilizers</div>
+                    </div>
+                    
+                    <button id="calculate-btn">Calculate</button>
+                </div>
+                
+                <div class="form-section" id="fish-farming">
+                    <h2>Fish Farming Calculator</h2>
+                    <p class="form-description">Fish farming calculations are currently under development.</p>
+                    <div style="text-align: center; padding: 40px 0;">
+                        <h3 style="color: #ff9800;">Coming Soon</h3>
+                        <p>Our fish farming calculator is still in development.</p>
+                    </div>
+                </div>
+                
+                <div class="results" id="crop-results">
+                    <h3>Farming Project Results</h3>
+                    
+                    <div class="result-item">
+                        <span class="result-label">Area of the yard:</span>
+                        <span class="result-value" id="result-area">0 m²</span>
+                    </div>
+                    
+                    <div class="result-item">
+                        <span class="result-label">Expected number of plants:</span>
+                        <span class="result-value" id="result-plants">0</span>
+                    </div>
+                    
+                    <div class="result-item">
+                        <span class="result-label">Vegetation yield:</span>
+                        <span class="result-value" id="result-vegetation">0</span>
+                    </div>
+                    
+                    <div class="result-item">
+                        <span class="result-label">Days the vegetation will last:</span>
+                        <span class="result-value" id="result-days">0 days</span>
+                    </div>
+                    
+                    <div class="cost-breakdown">
+                        <h4>Cost Breakdown</h4>
+                        
+                        <div class="result-item">
+                            <span class="result-label">Bags of seeds needed:</span>
+                            <span class="result-value" id="result-seeds-needed">0</span>
+                        </div>
+                        
+                        <div class="result-item">
+                            <span class="result-label">Seeds cost:</span>
+                            <span class="result-value" id="result-seeds-cost">R 0.00</span>
+                        </div>
+                        
+                        <div class="result-item">
+                            <span class="result-label">Bags of fertilizers needed:</span>
+                            <span class="result-value" id="result-fertilizers-needed">0</span>
+                        </div>
+                        
+                        <div class="result-item">
+                            <span class="result-label">Fertilizers cost:</span>
+                            <span class="result-value" id="result-fertilizers-cost">R 0.00</span>
+                        </div>
+                        
+                        <div class="result-item" style="border-top: 2px solid #4caf50; padding-top: 15px; margin-top: 15px;">
+                            <span class="result-label">Total Amount:</span>
+                            <span class="result-value" id="result-total" style="color: #2e7d32; font-size: 1.2rem;">R 0.00</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            
+        </div>
+    </section>
+
+    <!-- Community Section -->
+    <section class="community" id="community">
+        <div class="container">
+            <div class="section-title">
+                <h2>Join Our Growing Community</h2>
+                <p>Connect with thousands of gardeners, share experiences, and grow together.</p>
+            </div>
+            <div class="community-stats">
+                <div class="stat">
+                    <div class="stat-number">15K+</div>
+                    <div class="stat-label">Active Gardeners</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-number">320+</div>
+                    <div class="stat-label">Community Gardens</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-number">2.5K+</div>
+                    <div class="stat-label">Plants Shared</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-number">180+</div>
+                    <div class="stat-label">Events Hosted</div>
+                </div>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <h3>Interactive Map</h3>
+                    <p>Find nearby gardens, community plots, and fellow gardeners in your area.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>Knowledge Exchange</h3>
+                    <p>Participate in forums, ask questions, and share your gardening expertise.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>Local Events</h3>
+                    <p>Discover workshops, seed swaps, and community clean-up drives near you.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    
+
+    <!--Footer-->
+    <section class="footer">
+        <h1>©  2025 Digital Farmers | All rights reserved</h1>
+
+        <div class="icons">
+            <a href="https://www.facebook.com/" class="fab fa-facebook-f"></a>
+            <a href="https://x.com/" class="fab fa-twitter"></a>
+            <a href="https://www.instagram.com/" class="fab fa-instagram"></a>
+        </div>
+    </section>
+
+    <!-- Shopping Cart Sidebar -->
+    <div class="cart-sidebar" id="cart-sidebar">
+        <div class="cart-header">
+            <h3>Your Cart</h3>
+            <button class="close-modal" id="close-cart">&times;</button>
+        </div>
+        <div class="cart-items" id="cart-items">
+            <!-- Cart items will be dynamically added here -->
+        </div>
+        <div class="cart-total">
+            <span>Total:</span>
+            <span id="cart-total-price">$0.00</span>
+        </div>
+        <button class="btn btn-primary" id="checkout-btn" style="width: 100%;">Proceed to Checkout</button>
+    </div>
+
+    <!-- Modals -->
+    <!-- Add Plant Modal -->
+    <div class="modal" id="add-plant-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Add New Plant</h3>
+                <button class="close-modal">&times;</button>
+            </div>
+            <form id="add-plant-form">
+                <div class="form-group">
+                    <label class="form-label" for="plant-name">Plant Name</label>
+                    <input type="text" id="plant-name" class="form-control" placeholder="e.g., Tomato, Carrot, Basil">
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="plant-type">Plant Type</label>
+                    <select id="plant-type" class="form-control">
+                        <option value="vegetable">Vegetable</option>
+                        <option value="fruit">Fruit</option>
+                        <option value="herb">Herb</option>
+                        <option value="flower">Flower</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="planting-date">Planting Date</label>
+                    <input type="date" id="planting-date" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="water-schedule">Watering Schedule (days)</label>
+                    <input type="number" id="water-schedule" class="form-control" min="1" max="30" value="3">
+                </div>
+                <button type="submit" class="btn btn-primary">Add Plant</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="./app.js"></script>
+    
+    <!-- Firebase CDN -->
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+    <script src="./firebase-cdn.js"></script>
+    
+    <script src="project.js"></script>
+    
+</body>
+</html>

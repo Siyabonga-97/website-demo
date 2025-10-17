@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Debug - Digital Farmers</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .debug-section { margin: 20px 0; padding: 15px; border: 1px solid #ccc; border-radius: 5px; }
+        .error { color: red; }
+        .success { color: green; }
+        .info { color: blue; }
+        button { padding: 10px 15px; margin: 5px; cursor: pointer; }
+        input { padding: 8px; margin: 5px; width: 200px; }
+        .log { background: #f5f5f5; padding: 10px; margin: 10px 0; border-radius: 3px; font-family: monospace; }
+    </style>
+</head>
+<body>
+    <h1>Firebase Login Debug Tool</h1>
+    
+    <div class="debug-section">
+        <h3>Firebase Connection Status</h3>
+        <div id="firebase-status">Checking...</div>
+    </div>
+
+    <div class="debug-section">
+        <h3>Test Email Login</h3>
+        <input type="email" id="test-email" placeholder="Enter test email" value="test@example.com">
+        <input type="password" id="test-password" placeholder="Enter password" value="testpassword">
+        <button onclick="testEmailLogin()">Test Email Login</button>
+        <div id="email-result"></div>
+    </div>
+
+    <div class="debug-section">
+        <h3>Test Google Login</h3>
+        <button onclick="testGoogleLogin()">Test Google Login</button>
+        <div id="google-result"></div>
+    </div>
+
+    <div class="debug-section">
+        <h3>Console Logs</h3>
+        <div id="console-logs" class="log"></div>
+    </div>
+
+    <!-- Firebase CDN -->
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+    <script src="./firebase-cdn.js"></script>
+
+    <script>
+        // Capture console logs
+        const originalLog = console.log;
+        const originalError = console.error;
+        const logDiv = document.getElementById('console-logs');
+
+        function addLog(message, type = 'info') {
+            const timestamp = new Date().toLocaleTimeString();
+            const logEntry = document.createElement('div');
+            logEntry.className = type;
+            logEntry.textContent = `[${timestamp}] ${message}`;
+            logDiv.appendChild(logEntry);
+            logDiv.scrollTop = logDiv.scrollHeight;
+        }
+
+        console.log = function(...args) {
+            originalLog.apply(console, args);
+            addLog(args.join(' '), 'info');
+        };
+
+        console.error = function(...args) {
+            originalError.apply(console, args);
+            addLog(args.join(' '), 'error');
+        };
+
+        // Check Firebase initialization
+        function checkFirebaseStatus() {
+            const statusDiv = document.getElementById('firebase-status');
+            
+            try {
+                if (typeof firebase === 'undefined') {
+                    statusDiv.innerHTML = '<span class="error">❌ Firebase not loaded</span>';
+                    addLog('Firebase SDK not loaded', 'error');
+                    return false;
+                }
+
+                if (typeof FirebaseAuth === 'undefined') {
+                    statusDiv.innerHTML = '<span class="error">❌ FirebaseAuth object not found</span>';
+                    addLog('FirebaseAuth object not found', 'error');
+                    return false;
+                }
+
+                statusDiv.innerHTML = '<span class="success">✅ Firebase loaded successfully</span>';
+                addLog('Firebase and FirebaseAuth loaded successfully', 'success');
+                return true;
+            } catch (error) {
+                statusDiv.innerHTML = `<span class="error">❌ Error: ${error.message}</span>`;
+                addLog(`Firebase check error: ${error.message}`, 'error');
+                return false;
+            }
+        }
+
+        // Test email login
+        async function testEmailLogin() {
+            const email = document.getElementById('test-email').value;
+            const password = document.getElementById('test-password').value;
+            const resultDiv = document.getElementById('email-result');
+
+            if (!email || !password) {
+                resultDiv.innerHTML = '<span class="error">Please enter email and password</span>';
+                return;
+            }
+
+            resultDiv.innerHTML = 'Testing email login...';
+            addLog(`Attempting email login for: ${email}`);
+
+            try {
+                const result = await FirebaseAuth.signInWithEmail(email, password);
+                
+                if (result.success) {
+                    resultDiv.innerHTML = '<span class="success">✅ Email login successful!</span>';
+                    addLog('Email login successful', 'success');
+                } else {
+                    resultDiv.innerHTML = `<span class="error">❌ Email login failed: ${result.error}</span>`;
+                    addLog(`Email login failed: ${result.error}`, 'error');
+                }
+            } catch (error) {
+                resultDiv.innerHTML = `<span class="error">❌ Exception: ${error.message}</span>`;
+                addLog(`Email login exception: ${error.message}`, 'error');
+            }
+        }
+
+        // Test Google login
+        async function testGoogleLogin() {
+            const resultDiv = document.getElementById('google-result');
+            
+            resultDiv.innerHTML = 'Testing Google login...';
+            addLog('Attempting Google login');
+
+            try {
+                const result = await FirebaseAuth.signInWithGoogle();
+                
+                if (result.success) {
+                    if (result.redirect) {
+                        resultDiv.innerHTML = '<span class="info">🔄 Redirecting to Google...</span>';
+                        addLog('Google login redirect initiated', 'info');
+                    } else {
+                        resultDiv.innerHTML = '<span class="success">✅ Google login successful!</span>';
+                        addLog('Google login successful', 'success');
+                    }
+                } else {
+                    resultDiv.innerHTML = `<span class="error">❌ Google login failed: ${result.error}</span>`;
+                    addLog(`Google login failed: ${result.error}`, 'error');
+                }
+            } catch (error) {
+                resultDiv.innerHTML = `<span class="error">❌ Exception: ${error.message}</span>`;
+                addLog(`Google login exception: ${error.message}`, 'error');
+            }
+        }
+
+        // Initialize when page loads
+        window.addEventListener('load', function() {
+            addLog('Page loaded, checking Firebase status');
+            setTimeout(() => {
+                checkFirebaseStatus();
+                
+                // Initialize auth if available
+                if (typeof FirebaseAuth !== 'undefined') {
+                    FirebaseAuth.initializeAuth().then(() => {
+                        addLog('Firebase Auth initialized', 'success');
+                    }).catch((error) => {
+                        addLog(`Firebase Auth initialization error: ${error.message}`, 'error');
+                    });
+                }
+            }, 1000);
+        });
+    </script>
+</body>
+</html>

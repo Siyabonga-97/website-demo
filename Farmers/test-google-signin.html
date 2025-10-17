@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Google Sign-In</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        button {
+            background: #4285f4;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 10px 0;
+            width: 100%;
+        }
+        button:hover {
+            background: #357ae8;
+        }
+        .status {
+            margin: 20px 0;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        .error {
+            background: #ffebee;
+            color: #c62828;
+            border: 1px solid #ffcdd2;
+        }
+        .success {
+            background: #e8f5e8;
+            color: #2e7d32;
+            border: 1px solid #c8e6c9;
+        }
+        .info {
+            background: #e3f2fd;
+            color: #1565c0;
+            border: 1px solid #bbdefb;
+        }
+        pre {
+            background: #f5f5f5;
+            padding: 10px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔍 Google Sign-In Test</h1>
+        <p>This page will help diagnose Google sign-in issues.</p>
+        
+        <button id="test-google">Test Google Sign-In</button>
+        <button id="check-config">Check Firebase Config</button>
+        <button id="test-popup">Test Popup (Direct)</button>
+        
+        <div id="status"></div>
+        <div id="user-info"></div>
+        
+        <h3>Debug Information:</h3>
+        <pre id="debug-info">Loading...</pre>
+    </div>
+
+    <!-- Firebase CDN -->
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+    <script src="./firebase-cdn.js"></script>
+
+    <script>
+        const statusDiv = document.getElementById('status');
+        const userInfoDiv = document.getElementById('user-info');
+        const debugInfo = document.getElementById('debug-info');
+
+        function showStatus(message, type = 'info') {
+            statusDiv.innerHTML = `<div class="${type}">${message}</div>`;
+        }
+
+        function updateDebugInfo() {
+            const info = {
+                'Current URL': window.location.href,
+                'User Agent': navigator.userAgent,
+                'Cookies Enabled': navigator.cookieEnabled,
+                'Local Storage': typeof(Storage) !== "undefined",
+                'Firebase Available': typeof firebase !== 'undefined',
+                'Auth Available': typeof firebase !== 'undefined' && typeof firebase.auth !== 'undefined',
+                'Current User': firebase.auth().currentUser ? firebase.auth().currentUser.email : 'None'
+            };
+            
+            debugInfo.textContent = JSON.stringify(info, null, 2);
+        }
+
+        // Test Google Sign-In
+        document.getElementById('test-google').addEventListener('click', async function() {
+            showStatus('Testing Google Sign-In...', 'info');
+            
+            try {
+                const result = await FirebaseAuth.signInWithGoogle();
+                
+                if (result.success) {
+                    if (result.redirect) {
+                        showStatus('Redirect initiated. Check if you\'re redirected to Google.', 'info');
+                    } else {
+                        showStatus(`Success! Signed in as: ${result.user.email}`, 'success');
+                        userInfoDiv.innerHTML = `<h4>User Info:</h4><pre>${JSON.stringify(result.user, null, 2)}</pre>`;
+                    }
+                } else {
+                    showStatus(`Error: ${result.error}`, 'error');
+                }
+            } catch (error) {
+                showStatus(`Exception: ${error.message}`, 'error');
+                console.error('Test error:', error);
+            }
+            
+            updateDebugInfo();
+        });
+
+        // Check Firebase Config
+        document.getElementById('check-config').addEventListener('click', function() {
+            showStatus('Checking Firebase configuration...', 'info');
+            
+            try {
+                const app = firebase.app();
+                const config = app.options;
+                
+                const configInfo = {
+                    'Project ID': config.projectId,
+                    'Auth Domain': config.authDomain,
+                    'API Key': config.apiKey ? 'Present' : 'Missing',
+                    'App ID': config.appId ? 'Present' : 'Missing'
+                };
+                
+                showStatus('Firebase configuration loaded successfully', 'success');
+                userInfoDiv.innerHTML = `<h4>Firebase Config:</h4><pre>${JSON.stringify(configInfo, null, 2)}</pre>`;
+            } catch (error) {
+                showStatus(`Firebase config error: ${error.message}`, 'error');
+            }
+            
+            updateDebugInfo();
+        });
+
+        // Test Direct Popup
+        document.getElementById('test-popup').addEventListener('click', async function() {
+            showStatus('Testing direct popup...', 'info');
+            
+            try {
+                const auth = firebase.auth();
+                const provider = new firebase.auth.GoogleAuthProvider();
+                
+                const result = await auth.signInWithPopup(provider);
+                showStatus(`Direct popup success! User: ${result.user.email}`, 'success');
+                userInfoDiv.innerHTML = `<h4>Direct Popup Result:</h4><pre>${JSON.stringify(result.user, null, 2)}</pre>`;
+            } catch (error) {
+                showStatus(`Direct popup error: ${error.message}`, 'error');
+                console.error('Direct popup error:', error);
+            }
+            
+            updateDebugInfo();
+        });
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            updateDebugInfo();
+            
+            // Check for redirect result
+            firebase.auth().getRedirectResult().then((result) => {
+                if (result.user) {
+                    showStatus(`Redirect result: Signed in as ${result.user.email}`, 'success');
+                    userInfoDiv.innerHTML = `<h4>Redirect Result:</h4><pre>${JSON.stringify(result.user, null, 2)}</pre>`;
+                }
+                updateDebugInfo();
+            }).catch((error) => {
+                showStatus(`Redirect error: ${error.message}`, 'error');
+                updateDebugInfo();
+            });
+        });
+    </script>
+</body>
+</html>

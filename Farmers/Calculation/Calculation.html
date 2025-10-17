@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Digital Farmers</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 800px;
+            width: 100%;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(to right, #2e7d32, #4caf50);
+            color: white;
+            padding: 25px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+        }
+        
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+        
+        .content {
+            padding: 30px;
+        }
+        
+        .farming-type {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .farming-option {
+            flex: 1;
+            padding: 20px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .farming-option:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .farming-option.active {
+            border-color: #4caf50;
+            background-color: #e8f5e9;
+        }
+        
+        .farming-option h3 {
+            color: #2e7d32;
+            margin-bottom: 10px;
+        }
+        
+        .form-section {
+            display: none;
+        }
+        
+        .form-section.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #333;
+        }
+        
+        input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border 0.3s;
+        }
+        
+        input:focus {
+            border-color: #4caf50;
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.2);
+        }
+        
+        .error {
+            color: #f44336;
+            font-size: 14px;
+            margin-top: 5px;
+            display: none;
+        }
+        
+        button {
+            background: #4caf50;
+            color: white;
+            border: none;
+            padding: 14px 20px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s;
+            width: 100%;
+            margin-top: 10px;
+        }
+        
+        button:hover {
+            background: #388e3c;
+        }
+        
+        .results {
+            margin-top: 30px;
+            padding: 20px;
+            background: #f9f9f9;
+            border-radius: 10px;
+            display: none;
+        }
+        
+        .results.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        .results h3 {
+            color: #2e7d32;
+            margin-bottom: 15px;
+            text-align: center;
+            border-bottom: 1px solid #e0e0e0;
+            padding-bottom: 10px;
+        }
+        
+        .result-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            padding: 8px 0;
+            border-bottom: 1px dashed #e0e0e0;
+        }
+        
+        .result-item:last-child {
+            border-bottom: none;
+        }
+        
+        .result-label {
+            font-weight: 600;
+        }
+        
+        .result-value {
+            color: #2e7d32;
+            font-weight: 600;
+        }
+        
+        .cost-breakdown {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #e0e0e0;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            font-size: 14px;
+            border-top: 1px solid #e0e0e0;
+            margin-top: 20px;
+        }
+        
+        @media (max-width: 600px) {
+            .farming-type {
+                flex-direction: column;
+            }
+            
+            .header h1 {
+                font-size: 1.8rem;
+            }
+            
+            .content {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Digital Farmers</h1>
+            <p>Smart farming solutions for modern agriculture</p>
+        </div>
+        
+        <div class="content">
+            <div class="farming-type">
+                <div class="farming-option active" data-type="crop">
+                    <h3>Crop Farming</h3>
+                    <p>Calculate costs and yields for crop farming</p>
+                </div>
+                <div class="farming-option" data-type="fish">
+                    <h3>Fish Farming</h3>
+                    <p>Calculate costs and yields for fish farming</p>
+                </div>
+            </div>
+            
+            <div class="form-section active" id="crop-farming">
+                <h2>Crop Farming Calculator</h2>
+                <p class="form-description">Enter the details of your farming project to calculate costs and yields.</p>
+                
+                <div class="form-group">
+                    <label for="length">Length of the yard (meters):</label>
+                    <input type="number" id="length" step="0.1" min="0.1" placeholder="Enter length">
+                    <div class="error" id="length-error">Please enter a positive number for length</div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="width">Width of the yard (meters):</label>
+                    <input type="number" id="width" step="0.1" min="0.1" placeholder="Enter width">
+                    <div class="error" id="width-error">Please enter a positive number for width</div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="population">Estimated population for this project:</label>
+                    <input type="number" id="population" min="1" placeholder="Enter population">
+                    <div class="error" id="population-error">Please enter a positive number for population</div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="seeds-cost">Cost of 1kg bag of seeds (R):</label>
+                    <input type="number" id="seeds-cost" step="0.01" min="0.01" placeholder="Enter seeds cost">
+                    <div class="error" id="seeds-error">Please enter a positive cost for seeds</div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="fertilizer-cost">Cost of 1kg bag of fertilizers (R):</label>
+                    <input type="number" id="fertilizer-cost" step="0.01" min="0.01" placeholder="Enter fertilizer cost">
+                    <div class="error" id="fertilizer-error">Please enter a positive cost for fertilizers</div>
+                </div>
+                
+                <button id="calculate-btn">Calculate Farming Project</button>
+            </div>
+            
+            <div class="form-section" id="fish-farming">
+                <h2>Fish Farming Calculator</h2>
+                <p class="form-description">Fish farming calculations are currently under development.</p>
+                <div style="text-align: center; padding: 40px 0;">
+                    <h3 style="color: #ff9800;">Coming Soon</h3>
+                    <p>Our fish farming calculator is still in development.</p>
+                </div>
+            </div>
+            
+            <div class="results" id="crop-results">
+                <h3>Farming Project Results</h3>
+                
+                <div class="result-item">
+                    <span class="result-label">Area of the yard:</span>
+                    <span class="result-value" id="result-area">0 m²</span>
+                </div>
+                
+                <div class="result-item">
+                    <span class="result-label">Expected number of plants:</span>
+                    <span class="result-value" id="result-plants">0</span>
+                </div>
+                
+                <div class="result-item">
+                    <span class="result-label">Vegetation yield:</span>
+                    <span class="result-value" id="result-vegetation">0</span>
+                </div>
+                
+                <div class="result-item">
+                    <span class="result-label">Days the vegetation will last:</span>
+                    <span class="result-value" id="result-days">0 days</span>
+                </div>
+                
+                <div class="cost-breakdown">
+                    <h4>Cost Breakdown</h4>
+                    
+                    <div class="result-item">
+                        <span class="result-label">Bags of seeds needed:</span>
+                        <span class="result-value" id="result-seeds-needed">0</span>
+                    </div>
+                    
+                    <div class="result-item">
+                        <span class="result-label">Seeds cost:</span>
+                        <span class="result-value" id="result-seeds-cost">R 0.00</span>
+                    </div>
+                    
+                    <div class="result-item">
+                        <span class="result-label">Bags of fertilizers needed:</span>
+                        <span class="result-value" id="result-fertilizers-needed">0</span>
+                    </div>
+                    
+                    <div class="result-item">
+                        <span class="result-label">Fertilizers cost:</span>
+                        <span class="result-value" id="result-fertilizers-cost">R 0.00</span>
+                    </div>
+                    
+                    <div class="result-item" style="border-top: 2px solid #4caf50; padding-top: 15px; margin-top: 15px;">
+                        <span class="result-label">Total Amount:</span>
+                        <span class="result-value" id="result-total" style="color: #2e7d32; font-size: 1.2rem;">R 0.00</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p>Digital Farmers &copy; 2023 | Smart Agricultural Solutions</p>
+        </div>
+    </div>
+
+    <script>
+        // Constants from the Java program
+        const VEGETATION_PER_PLANT = 3.7;
+        const FERTILIZER_COVERAGE_PER_AREA = 35;
+        const SEEDS_COVERAGE_PER_AREA = 75;
+        const CROPS_PER_AREA = 16.2;
+        const SERVINGS_PER_DAY = 3.0;
+        
+        // DOM Elements
+        const farmingOptions = document.querySelectorAll('.farming-option');
+        const cropFarmingSection = document.getElementById('crop-farming');
+        const fishFarmingSection = document.getElementById('fish-farming');
+        const cropResults = document.getElementById('crop-results');
+        const calculateBtn = document.getElementById('calculate-btn');
+        
+        // Input fields
+        const lengthInput = document.getElementById('length');
+        const widthInput = document.getElementById('width');
+        const populationInput = document.getElementById('population');
+        const seedsCostInput = document.getElementById('seeds-cost');
+        const fertilizerCostInput = document.getElementById('fertilizer-cost');
+        
+        // Error messages
+        const lengthError = document.getElementById('length-error');
+        const widthError = document.getElementById('width-error');
+        const populationError = document.getElementById('population-error');
+        const seedsError = document.getElementById('seeds-error');
+        const fertilizerError = document.getElementById('fertilizer-error');
+        
+        // Result elements
+        const resultArea = document.getElementById('result-area');
+        const resultPlants = document.getElementById('result-plants');
+        const resultVegetation = document.getElementById('result-vegetation');
+        const resultDays = document.getElementById('result-days');
+        const resultSeedsNeeded = document.getElementById('result-seeds-needed');
+        const resultSeedsCost = document.getElementById('result-seeds-cost');
+        const resultFertilizersNeeded = document.getElementById('result-fertilizers-needed');
+        const resultFertilizersCost = document.getElementById('result-fertilizers-cost');
+        const resultTotal = document.getElementById('result-total');
+        
+        // Farming type selection
+        farmingOptions.forEach(option => {
+            option.addEventListener('click', () => {
+                farmingOptions.forEach(opt => opt.classList.remove('active'));
+                option.classList.add('active');
+                
+                const type = option.getAttribute('data-type');
+                
+                if (type === 'crop') {
+                    cropFarmingSection.classList.add('active');
+                    fishFarmingSection.classList.remove('active');
+                    cropResults.classList.remove('active');
+                } else {
+                    cropFarmingSection.classList.remove('active');
+                    fishFarmingSection.classList.add('active');
+                    cropResults.classList.remove('active');
+                }
+            });
+        });
+        
+        // Validation functions
+        function validateInput(input, errorElement) {
+            const value = parseFloat(input.value);
+            
+            if (isNaN(value) || value <= 0) {
+                errorElement.style.display = 'block';
+                input.style.borderColor = '#f44336';
+                return false;
+            } else {
+                errorElement.style.display = 'none';
+                input.style.borderColor = '#4caf50';
+                return true;
+            }
+        }
+        
+        // Input validation on change
+        lengthInput.addEventListener('input', () => validateInput(lengthInput, lengthError));
+        widthInput.addEventListener('input', () => validateInput(widthInput, widthError));
+        populationInput.addEventListener('input', () => validateInput(populationInput, populationError));
+        seedsCostInput.addEventListener('input', () => validateInput(seedsCostInput, seedsError));
+        fertilizerCostInput.addEventListener('input', () => validateInput(fertilizerCostInput, fertilizerError));
+        
+        // Calculate button click
+        calculateBtn.addEventListener('click', () => {
+            // Validate all inputs
+            const isLengthValid = validateInput(lengthInput, lengthError);
+            const isWidthValid = validateInput(widthInput, widthError);
+            const isPopulationValid = validateInput(populationInput, populationError);
+            const isSeedsCostValid = validateInput(seedsCostInput, seedsError);
+            const isFertilizerCostValid = validateInput(fertilizerCostInput, fertilizerError);
+            
+            if (isLengthValid && isWidthValid && isPopulationValid && 
+                isSeedsCostValid && isFertilizerCostValid) {
+                
+                // Get input values
+                const length = parseFloat(lengthInput.value);
+                const width = parseFloat(widthInput.value);
+                const population = parseInt(populationInput.value);
+                const seedsCost = parseFloat(seedsCostInput.value);
+                const fertilizerCost = parseFloat(fertilizerCostInput.value);
+                
+                // Calculations (based on Java program logic)
+                const area = length * width;
+                const crops = Math.floor(area * CROPS_PER_AREA);
+                
+                // Random environmental issues between 4% and 20%
+                const environmentalIssues = (4 + Math.floor(Math.random() * 17)) / 100.0;
+                const deadPlants = Math.floor(crops * environmentalIssues);
+                const totalPlants = crops - deadPlants;
+                const vegetation = Math.floor(totalPlants * VEGETATION_PER_PLANT);
+                const servings = population * SERVINGS_PER_DAY;
+                const days = Math.floor(vegetation / servings);
+                
+                // Cost calculations
+                const seedsNeeded = Math.ceil(area / SEEDS_COVERAGE_PER_AREA);
+                const totalSeedCosts = seedsCost * seedsNeeded;
+                
+                const fertilizersNeeded = Math.ceil(area / FERTILIZER_COVERAGE_PER_AREA);
+                const totalFertCosts = fertilizerCost * fertilizersNeeded;
+                
+                const totalAmount = totalSeedCosts + totalFertCosts;
+                
+                // Format currency
+                const formatCurrency = (amount) => {
+                    return `R ${amount.toFixed(2)}`;
+                };
+                
+                // Update results
+                resultArea.textContent = `${area.toFixed(2)} m²`;
+                resultPlants.textContent = totalPlants;
+                resultVegetation.textContent = vegetation;
+                resultDays.textContent = `${days} days`;
+                resultSeedsNeeded.textContent = seedsNeeded;
+                resultSeedsCost.textContent = formatCurrency(totalSeedCosts);
+                resultFertilizersNeeded.textContent = fertilizersNeeded;
+                resultFertilizersCost.textContent = formatCurrency(totalFertCosts);
+                resultTotal.textContent = formatCurrency(totalAmount);
+                
+                // Show results
+                cropResults.classList.add('active');
+                
+                // Scroll to results
+                cropResults.scrollIntoView({ behavior: 'smooth' });
+            }
+        });
+    </script>
+</body>
+</html>

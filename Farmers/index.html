@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!--font awesome file link-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
+    <link rel="stylesheet" href="IndexStyle.css">
+    <title>Digital Farmers</title>
+</head>
+<body>
+    <header class="header">
+        <a href="#"class="logo"><i class="fas fa-tree"> Digital Farmers</i></a>
+
+        <!--navbar icons-->
+        <div class="fas fa-bars"></div>
+
+        <nav class="navbar"">
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="index.html#about">About Us</a></li>
+                <li><a href="index.html#service">Farming Tips</a></li>
+                <li><a href="index.html#team">Our Team</a></li>
+                <li><a href="index.html#contact">Contact Us</a></li>
+                <li id="project-link" style="display: none;"><a href="projects.html">Project</a></li>
+                <li><a href="Login-cdn.html" id="auth-link">Login</a></li>
+                <li id="user-profile-container" style="display: none;">
+                    <div class="user-profile-icon" id="user-profile-icon">
+                        <span id="user-initials"></span>
+                    </div>
+                </li>
+            </ul>
+        </nav>
+    </header>
+
+    <section id="home" class="home">
+        <h1 class="banner">Digital Farmers </h1>
+    <h2 class="slogan"> "From Soil to Security"</h2>
+    <div id="user-info" style="display: none; color: white; text-align: center; margin: 10px 0;"></div>
+
+    <a href="#"><button>Get Started</button></a>
+    </section>
+
+    <!--About Us-->
+    <section id="about" class="about">
+        <h1 class="heading">About Us</h1>
+        <div class="row">
+
+            <div class="content">
+                <h2>From Soil to Security</h2>
+                <p>We are a group of motivated TUT IT students committed to promoting sustainable food gardening across South Africa.
+                    Our project aims to empower communities to grow their own nutritious food, strengthen food security, and encourage environmental awareness.
+                     By combining knowledge, innovation, and teamwork, we strive to create greener spaces and inspire others to take part in building a healthier,
+                      more sustainable, and food-secure future for all.</p>
+                      <a href="#"><button class="btn">Read More</button></a>
+            </div>
+            <!--about images-->
+
+            <div class="images">
+                <img src="AboutUs.jpg" alt="">
+            </div>
+        </div>
+
+
+    </section>
+    <!--Farming tips-->
+    <section id="service" class="service">
+
+        <h1 class="heading">Recommendations & Tips</h1>
+
+        <div class="row">
+
+
+            <div class="images">
+                <img src="Soil.jpg" alt="">
+            </div>
+            <div class="content">
+                <h2> 1. Improve Soil Quality</h2>
+                <p>Start composting food scraps, leaves, and grass to create natural fertilizer.
+                   Mix organic matter (compost or manure) into the soil to make it richer.
+                   Rotate crops each season to prevent soil exhaustion.
+                </p>
+            <a href="#"><button class="btn">Read More</button></a>
+            </div>
+        </div>
+        <div class="row">
+
+
+            <div class="content">
+                <h2> 2. Manage Water Wisely</h2>
+                <p>Install rainwater tanks to collect and store water for dry days.
+                    Use drip irrigation or watering cans instead of hoses to save water.
+                    Water plants early in the morning or late afternoon to reduce evaporation.
+                </p>
+            <a href="#"><button class="btn">Read More</button></a>
+            </div>
+             <div class="images">
+                <img src="FarmingTips.jpg" alt="">
+            </div>
+        </div>
+        <div class="row">
+
+            <div class="images">
+                <img src="pest.jpg" alt="">
+            </div>
+            <div class="content">
+                <h2> 3. Control Pests Naturally</h2>
+                <p>Grow marigolds, basil, or mint near vegetables — these help repel pests.
+                Use homemade sprays like a mix of dish soap and water for aphids.
+                Introduce beneficial insects such as ladybugs to eat harmful ones.
+            </p>
+            <a href="#"><button class="btn">Read More</button></a>
+            </div>
+        </div>
+        <div class="row">
+
+            <div class="content">
+                 <h2> 4. Strengthen Community Involvement</h2>
+            <p>Involve local schools or youth in planting and harvesting.
+            Create a rotational schedule for watering and weeding.
+            Host community training days on composting or pest control.</p>
+            <a href="#"><button class="btn">Read More</button></a>
+            </div>
+            <div class="images">
+                <img src="community.jpg" alt="">
+            </div>
+        </div>
+    
+    </section>
+    <!--Our team-->
+
+    <section id="team" class="team">
+
+
+        <h1 class="heading">Our Team</h1>
+
+        <div class="row">
+
+            <div class="card">
+                <div class="images">
+                    <img src="Mbali.jpg" alt="">
+                </div>
+                <div class="info">
+                    <h2>Hlatshwayo Mbalenhle</h2>
+                    <p>(Group Leader)</p>
+
+                    <div class="icons">
+                        <a href="https://www.facebook.com/" class="fab fa-facebook-f"></a>
+                        <a href="https://x.com/" class="fab fa-x"></a>
+                        <a href="https://www.instagram.com/" class="fab fa-instagram"></a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="images">
+                    <img src="Odwa.jpg" alt="">
+                </div>
+                <div class="info">
+                    <h2>Mbundu Odwa</h2>
+                    <p>(Reporter & Reseacher)</p>
+
+                    <div class="icons">
+                        <a href="https://www.facebook.com/" class="fab fa-facebook-f"></a>
+                        <a href="https://x.com/" class="fab fa-x"></a>
+                        <a href="https://www.instagram.com/" class="fab fa-instagram"></a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="images">
+                    <img src="Lebo.jpg" alt="">
+                </div>
+                <div class="info">
+                    <h2>Motsedi Lebogang</h2>
+                    <p>(Reporter & Reseacher)</p>
+
+                    <div class="icons">
+                        <a href="https://www.facebook.com/" class="fab fa-facebook-f"></a>
+                        <a href="https://x.com/" class="fab fa-x"></a>
+                        <a href="https://www.instagram.com/" class="fab fa-instagram"></a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="images">
+                    <img src="Linah.jpg" alt="">
+                </div>
+                <div class="info">
+                    <h2>Aaron Lenah</h2>
+                    <p>(Reporter & Reseacher)</p>
+
+                    <div class="icons">
+                        <a href="https://www.facebook.com/" class="fab fa-facebook-f"></a>
+                        <a href="https://x.com/" class="fab fa-x"></a>
+                        <a href="https://www.instagram.com/" class="fab fa-instagram"></a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="images">
+                    <img src="Kamogelo.jpg" alt="">
+                </div>
+                <div class="info">
+                    <h2>Moloto Kamogelo</h2>
+                    <p>(Reseacher & Coordinator)</p>
+
+                    <div class="icons">
+                        <a href="https://www.facebook.com/" class="fab fa-facebook-f"></a>
+                        <a href="https://x.com/" class="fab fa-x"></a>
+                        <a href="https://www.instagram.com/" class="fab fa-instagram"></a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="images">
+                    <img src="Refentswe.jpg" alt="">
+                </div>
+                <div class="info">
+                    <h2>Morwasehla Refentswe</h2>
+                    <p>(Reseacher)</p>
+
+                    <div class="icons">
+                        <a href="https://www.facebook.com/" class="fab fa-facebook-f"></a>
+                        <a href="https://x.com/" class="fab fa-x"></a>
+                        <a href="https://www.instagram.com/" class="fab fa-instagram"></a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="images">
+                    <img src="Ndzalama.jpg" alt="">
+                </div>
+                <div class="info">
+                    <h2>Mkhabela Ndzalama</h2>
+                    <p>(Reporter)</p>
+
+                    <div class="icons">
+                        <a href="https://www.facebook.com/" class="fab fa-facebook-f"></a>
+                        <a href="https://x.com/" class="fab fa-x"></a>
+                        <a href="https://www.instagram.com/" class="fab fa-instagram"></a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="images">
+                    <img src="Lebepe.jpg" alt="">
+                </div>
+                <div class="info">
+                    <h2>Makwena Lepebe</h2>
+                    <p>(Reporter)</p>
+
+                    <div class="icons">
+                        <a href="https://www.facebook.com/" class="fab fa-facebook-f"></a>
+                        <a href="https://x.com/" class="fab fa-x"></a>
+                        <a href="https://www.instagram.com/" class="fab fa-instagram"></a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="images">
+                    <img src="Me.jpg" alt="">
+                </div>
+                <div class="info">
+                    <h2> Nkanyane Siyabonga</h2>
+                    <p>(Designer & Programmer)</p>
+
+                    <div class="icons">
+                        <a href="https://www.facebook.com/" class="fab fa-facebook-f"></a>
+                        <a href="https://x.com/" class="fab fa-twitter"></a>
+                        <a href="https://www.instagram.com/" class="fab fa-instagram"></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--Contact Us-->
+    <section id="contact" class="contact">
+        <h1 class="heading">Contact Us</h1>
+
+        <div class="row">
+            <div class="images">
+                <img src="Contact us.jpg" alt="ContactUs">
+            </div>
+            <div class="form-container">
+                <form action="">
+                    <div class="inputbox">
+                        <input type="text" placeholder="First Name" name="" id="">
+                        <input type="text" placeholder="Last Name" name="" id="">
+                    </div>
+                    <input type="text" placeholder="Enter your email" name="" id="">
+                    <textarea name="" placeholder="Message" id="" cols="30" rows="10"></textarea>
+
+                    <input type="Submit" value="send" onclick="showThankYouMessage(event)">
+                </form>
+            </div>
+        </div>
+    </section>
+    <!--Footer-->
+
+    <section class="footer">
+        <h1>©  2025 Digital Farmers | All rights reserved</h1>
+
+        <div class="icons">
+            <a href="https://www.facebook.com/" class="fab fa-facebook-f"></a>
+            <a href="https://x.com/" class="fab fa-twitter"></a>
+            <a href="https://www.instagram.com/" class="fab fa-instagram"></a>
+        </div>
+
+    </section>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="./app.js"></script>
+    
+    <!-- Firebase CDN -->
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+    <script src="./firebase-cdn.js"></script>
+    
+    <script>
+        // Contact form thank you message
+        function showThankYouMessage(event) {
+            event.preventDefault(); // Prevent form submission
+            alert('Thank you! The message has been received and noted.');
+            
+            // Optional: Clear the form after showing the message
+            const form = event.target.closest('form');
+            form.reset();
+        }
+
+        // User profile management
+        function updateUserProfile(user) {
+            const authLink = document.getElementById('auth-link');
+            const userProfileContainer = document.getElementById('user-profile-container');
+            const userInitials = document.getElementById('user-initials');
+            
+            if (user) {
+                // Hide login link, show profile icon and project link
+                authLink.style.display = 'none';
+                userProfileContainer.style.display = 'block';
+                document.getElementById('project-link').style.display = 'block';
+                
+                // Get user initials
+                const email = user.email || '';
+                const displayName = user.displayName || '';
+                
+                let initials = '';
+                if (displayName) {
+                    // Use display name if available
+                    const names = displayName.split(' ');
+                    initials = names.map(name => name.charAt(0)).join('').substring(0, 2);
+                } else if (email) {
+                    // Use email if no display name
+                    initials = email.substring(0, 2);
+                }
+                
+                userInitials.textContent = initials.toUpperCase();
+                
+                // Create dropdown menu
+                createProfileDropdown(user);
+            } else {
+                // Show login link, hide profile icon and project link
+                authLink.style.display = 'block';
+                userProfileContainer.style.display = 'none';
+                document.getElementById('project-link').style.display = 'none';
+            }
+        }
+        
+        function createProfileDropdown(user) {
+            const profileContainer = document.getElementById('user-profile-container');
+            const profileIcon = document.getElementById('user-profile-icon');
+            
+            // Remove existing dropdown
+            const existingDropdown = profileContainer.querySelector('.profile-dropdown');
+            if (existingDropdown) {
+                existingDropdown.remove();
+            }
+            
+            // Create new dropdown
+            const dropdown = document.createElement('div');
+            dropdown.className = 'profile-dropdown';
+            dropdown.innerHTML = `
+                <div class="profile-dropdown-item">
+                    <div class="user-email">${user.email}</div>
+                    <div style="font-size: 12px; color: #999;">Signed in</div>
+                </div>
+                <div class="profile-dropdown-item logout-btn" onclick="handleLogout()">
+                    <i class="fas fa-sign-out-alt" style="margin-right: 8px;"></i>
+                    Sign out
+                </div>
+            `;
+            
+            profileContainer.appendChild(dropdown);
+            
+            // Toggle dropdown on click
+            profileIcon.addEventListener('click', function(e) {
+                e.stopPropagation();
+                dropdown.classList.toggle('show');
+            });
+            
+            // Close dropdown when clicking outside
+            document.addEventListener('click', function() {
+                dropdown.classList.remove('show');1
+            });
+        }
+        
+        async function handleLogout() {
+            try {
+                const result = await FirebaseAuth.signOutUser();
+                if (result.success) {
+                    updateUserProfile(null);
+                    // Optional: redirect to login page
+                    // window.location.href = 'Login-cdn.html';
+                } else {
+                    alert('Error logging out. Please try again.');
+                }
+            } catch (error) {
+                console.error('Logout error:', error);
+                alert('Error logging out. Please try again.');
+            }
+        }
+        
+        // Initialize authentication when page loads
+        document.addEventListener('DOMContentLoaded', async function() {
+            try {
+                await FirebaseAuth.initializeAuth();
+                
+                // Listen for auth state changes
+                firebase.auth().onAuthStateChanged((user) => {
+                    updateUserProfile(user);
+                });
+            } catch (error) {
+                console.error('Authentication initialization error:', error);
+            }
+        });
+    </script>
+    
+</body>
+</html>

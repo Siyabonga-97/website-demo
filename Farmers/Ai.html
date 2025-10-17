@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Digital Farmers</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Chatbot Styles - Matches Digital Farmers Theme */
+        :root {
+            --primary: #2E7D32;
+            --primary-dark: #1B5E20;
+            --secondary: #8BC34A;
+            --accent: #7CB342;
+            --light: #F1F8E9;
+            --dark: #1B5E20;
+            --text: #263238;
+            --text-light: #546E7A;
+            --white: #FFFFFF;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --radius: 8px;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: var(--light);
+            color: var(--text);
+            line-height: 1.6;
+        }
+        
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+        
+        /* Header Styles */
+        header {
+            background-color: #65b741;
+            color: var(--white);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: var(--shadow);
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: left;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.5rem;
+            font-weight: 700;
+            text-decoration: none;
+            color: var(--white);
+        }
+        
+        .logo i {
+            font-size: 1.8rem;
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 1.5rem;
+        }
+        
+        nav a {
+            color: var(--white);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+   
+        /* Chatbot Container */
+        .chatbot-container {
+            max-width: 800px;
+            margin: 2rem auto;
+            background-color: var(--white);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            overflow: hidden;
+        }
+        
+        .chatbot-header {
+            background: linear-gradient(to right, #65b741, #65b741);
+            color: var(--white);
+            padding: 1.5rem;
+            text-align: center;
+        }
+        
+        .chatbot-header h1 {
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .chatbot-header p {
+            opacity: 0.9;
+        }
+        
+        .chatbot-body {
+            padding: 1.5rem;
+            height: 500px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        
+        .message {
+            max-width: 80%;
+            padding: 1rem;
+            border-radius: var(--radius);
+            line-height: 1.5;
+        }
+        
+        .user-message {
+            align-self: flex-end;
+            background-color: var(--secondary);
+            color: var(--dark);
+            border-bottom-right-radius: 0;
+        }
+        
+        .bot-message {
+            align-self: flex-start;
+            background-color: #65b741;
+            color: var(--text);
+            border-bottom-left-radius: 0;
+        }
+        
+        .message-time {
+            font-size: 0.7rem;
+            margin-top: 0.5rem;
+            opacity: 0.7;
+            text-align: right;
+        }
+        
+        .chatbot-footer {
+            padding: 1rem;
+            border-top: 1px solid #eee;
+            display: flex;
+            gap: 0.5rem;
+        }
+        
+        .chat-input {
+            flex: 1;
+            padding: 0.8rem 1rem;
+            border: 1px solid #ddd;
+            border-radius: var(--radius);
+            font-size: 1rem;
+            resize: none;
+            height: 50px;
+        }
+        
+        .chat-input:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+        
+        .send-btn {
+            background-color: var(--primary);
+            color: var(--white);
+            border: none;
+            border-radius: var(--radius);
+            padding: 0 1.5rem;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .send-btn:hover {
+            background-color: var(--primary-dark);
+        }
+        
+        .send-btn i {
+            font-size: 1.2rem;
+        }
+        
+        .typing-indicator {
+            display: none;
+            align-self: flex-start;
+            background-color: #65b741;
+            padding: 0.8rem 1rem;
+            border-radius: var(--radius);
+            border-bottom-left-radius: 0;
+        }
+        
+        .typing-dots {
+            display: flex;
+            gap: 4px;
+        }
+        
+        .typing-dot {
+            width: 8px;
+            height: 8px;
+            background-color: #65b741;
+            border-radius: 50%;
+            animation: typing 1.4s infinite ease-in-out;
+        }
+        
+        .typing-dot:nth-child(1) { animation-delay: -0.32s; }
+        .typing-dot:nth-child(2) { animation-delay: -0.16s; }
+        
+        @keyframes typing {
+            0%, 80%, 100% { transform: scale(0.8); opacity: 0.5; }
+            40% { transform: scale(1); opacity: 1; }
+        }
+        
+        .chatbot-info {
+            margin-top: 2rem;
+            text-align: center;
+            color: #65b741;
+            font-size: 0.9rem;
+        }
+        
+        /* Footer */
+       .footer{
+    width: 100%;
+    display: flex;
+    align-items: left;
+    justify-content: space-around;
+    padding: 2rem 2rem;
+    margin-top: 1rem;
+    background-color: #65b741;
+    
+}
+.footer h1{
+    color:var(--white) ;
+    font-size: 2rem;
+    font-weight: 400;
+    
+}
+.footer .icons a{
+    font-size: 2rem;
+    color: var(--white);
+    padding: 0 1rem;
+}
+
+        
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            .message {
+                max-width: 90%;
+            }
+            
+            .chatbot-body {
+                height: 400px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container header-content">
+            <a href="projects.html" class="logo"><i class="fas fa-tree"> Digital Farmers</i></a>
+            <nav>
+                <ul>
+                    <li><a href="projects.html">Back to Project</a></li>
+                   
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Chatbot Container -->
+    <div class="container">
+        <div class="chatbot-container">
+            <div class="chatbot-header">
+                <h1>Farming Intelligence</h1>
+                <p>Ask me anything about gardening, farming, or plant care</p>
+            </div>
+            
+            <div class="chatbot-body" id="chat-messages">
+                <div class="message bot-message">
+                    <p>Hello! I'm your Digital Farmers AI assistant. I can help you with gardening tips, plant care advice, farming calculations, and more. How can I assist you today?</p>
+                    <div class="message-time" id="initial-time"></div>
+                </div>
+            </div>
+            
+            <div class="typing-indicator" id="typing-indicator">
+                <div class="typing-dots">
+                    <div class="typing-dot"></div>
+                    <div class="typing-dot"></div>
+                    <div class="typing-dot"></div>
+                </div>
+            </div>
+            
+            <div class="chatbot-footer">
+                <textarea class="chat-input" id="user-input" placeholder="Type your question here..." rows="1"></textarea>
+                <button class="send-btn" id="send-btn">
+                    <i class="fas fa-paper-plane"></i>
+                </button>
+            </div>
+        </div>
+        
+        <div class="chatbot-info">
+            <p>This AI assistant is powered by DeepSeek to provide you with accurate gardening and farming information.</p>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <section class="footer">
+        <h1>©  2025 Digital Farmers | All rights reserved</h1>
+
+        <div class="icons">
+            <a href="https://www.facebook.com/" class="fab fa-facebook-f"></a>
+            <a href="https://x.com/" class="fab fa-twitter"></a>
+            <a href="https://www.instagram.com/" class="fab fa-instagram"></a>
+        </div>
+
+    </section>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Set initial message time
+            document.getElementById('initial-time').textContent = getCurrentTime();
+            
+            const chatMessages = document.getElementById('chat-messages');
+            const userInput = document.getElementById('user-input');
+            const sendBtn = document.getElementById('send-btn');
+            const typingIndicator = document.getElementById('typing-indicator');
+            
+            // Auto-resize textarea
+            userInput.addEventListener('input', function() {
+                this.style.height = 'auto';
+                this.style.height = (this.scrollHeight) + 'px';
+            });
+            
+            // Send message on button click
+            sendBtn.addEventListener('click', sendMessage);
+            
+            // Send message on Enter key (but allow Shift+Enter for new line)
+            userInput.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter' && !e.shiftKey) {
+                    e.preventDefault();
+                    sendMessage();
+                }
+            });
+            
+            function sendMessage() {
+                const message = userInput.value.trim();
+                if (message === '') return;
+                
+                // Add user message to chat
+                addMessage(message, 'user');
+                
+                // Clear input and reset height
+                userInput.value = '';
+                userInput.style.height = 'auto';
+                
+                // Show typing indicator
+                typingIndicator.style.display = 'block';
+                scrollToBottom();
+                
+                // Send message to DeepSeek API (simulated for demo)
+                setTimeout(() => {
+                    getAIResponse(message);
+                }, 1000);
+            }
+            
+            function addMessage(text, sender) {
+                const messageDiv = document.createElement('div');
+                messageDiv.className = `message ${sender}-message`;
+                
+                const messageText = document.createElement('p');
+                messageText.textContent = text;
+                messageDiv.appendChild(messageText);
+                
+                const timeDiv = document.createElement('div');
+                timeDiv.className = 'message-time';
+                timeDiv.textContent = getCurrentTime();
+                messageDiv.appendChild(timeDiv);
+                
+                chatMessages.appendChild(messageDiv);
+                scrollToBottom();
+            }
+            
+            function scrollToBottom() {
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }
+            
+            function getCurrentTime() {
+                const now = new Date();
+                return now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+            }
+            
+            // Simulated API call to DeepSeek
+            function getAIResponse(userMessage) {
+                // Hide typing indicator
+                typingIndicator.style.display = 'none';
+                
+                // In a real implementation, you would make an API call to DeepSeek here
+                // For this demo, we'll use a simple response generator
+                
+                // Sample responses based on keywords
+                let response = generateResponse(userMessage);
+                
+                // Add a small delay to simulate processing time
+                setTimeout(() => {
+                    addMessage(response, 'bot');
+                }, 500);
+            }
+            
+            function generateResponse(userMessage) {
+                const message = userMessage.toLowerCase();
+                
+                // Gardening-related responses
+                if (message.includes('tomato') || message.includes('tomatoes')) {
+                    return "Tomatoes need at least 6-8 hours of sunlight daily and well-draining soil. Water them deeply but infrequently to encourage strong root growth. Stake or cage your plants to support the heavy fruit.";
+                }
+                
+                if (message.includes('carrot') || message.includes('carrots')) {
+                    return "Carrots grow best in loose, sandy soil free of stones. Plant seeds 1/4 inch deep and thin seedlings to 2-3 inches apart. They typically take 70-80 days to mature. Keep soil consistently moist for best results.";
+                }
+                
+                if (message.includes('water') || message.includes('watering')) {
+                    return "Most vegetables need about 1 inch of water per week. The best time to water is in the morning, which allows leaves to dry and reduces disease risk. Use a rain gauge or empty tuna can to measure water amounts.";
+                }
+                
+                if (message.includes('soil') || message.includes('fertilizer')) {
+                    return "Test your soil pH first - most vegetables prefer 6.0-7.0. Add compost to improve soil structure. For fertilizers, look for balanced options (like 10-10-10) or use organic alternatives like compost tea or fish emulsion.";
+                }
+                
+                if (message.includes('pest') || message.includes('insect')) {
+                    return "For natural pest control, try companion planting (marigolds repel many pests), hand-picking insects, or using neem oil or insecticidal soap. Encourage beneficial insects like ladybugs and lacewings.";
+                }
+                
+                if (message.includes('harvest') || message.includes('when to pick')) {
+                    return "Harvest times vary by plant. Leafy greens can be harvested young. Tomatoes are best when fully colored but firm. Root vegetables can be checked by size. Herbs are most flavorful just before flowering.";
+                }
+                
+                if (message.includes('compost') || message.includes('composting')) {
+                    return "Compost needs a balance of greens (kitchen scraps, grass) and browns (leaves, straw). Turn regularly and keep moist. A properly maintained compost pile should not smell bad and will produce rich soil in 2-6 months.";
+                }
+                
+                // General responses
+                if (message.includes('hello') || message.includes('hi') || message.includes('hey')) {
+                    return "Hello! I'm here to help with all your gardening questions. What would you like to know about today?";
+                }
+                
+                if (message.includes('thank')) {
+                    return "You're welcome! Happy to help with your gardening journey. Is there anything else you'd like to know?";
+                }
+                
+                // Default response for other queries
+                return "I'd be happy to help with your gardening question! For specific advice, please provide more details about your plants, soil conditions, or the issue you're experiencing. You can also check our farming calculators and community features on the main Digital Farmers website.";
+            }
+        });
+    </script>
+</body>
+</html>
